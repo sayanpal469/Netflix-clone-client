@@ -1,11 +1,14 @@
 import Header from "./Header";
+import MainContainer from "./containers/MainContainer";
+import MovieContainer from "./containers/MovieContainer";
 
 const Browse = () => {
   return (
     <div className="relative">
       <Header />
-      <div className="absolute mt-44">
-       <h1 className="text-black text-5xl"> This is home page</h1>
+      <div className="">
+       <MainContainer/>
+       <MovieContainer/>
       </div>
     </div>
   );
