@@ -1,23 +1,34 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { logOut } from "../features/user/userSlice";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    // Dispatch the logout action to update Redux store
+    dispatch(logOut());
+  
+    // Clear user data from localStorage
+    localStorage.removeItem('user');
+  };
 
   return (
-      // <div className="absolute flex flex-col md:flex-row w-full items-center justify-between bg-gradient-to-b from-black px-4 py-2">
-      //   <img
-      //     className="w-40 md:w-56 mb-2 md:mb-0"
-      //     src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png"
-      //     alt="netflix-logo"
-      //   />
-      //   <div className="flex items-center">
-      //     <h1 className="text-white text-lg md:text-xl mr-2 md:mr-4">User</h1>
-      //     <div className="flex flex-col md:flex-row">
-      //       <button className="bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4">Log out</button>
-      //       <button className="bg-red-800 text-white px-4 py-2">Search Movie</button>
-      //     </div>
-      //   </div>
-      // </div>
+    // <div className="absolute flex flex-col md:flex-row w-full items-center justify-between bg-gradient-to-b from-black px-4 py-2">
+    //   <img
+    //     className="w-40 md:w-56 mb-2 md:mb-0"
+    //     src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png"
+    //     alt="netflix-logo"
+    //   />
+    //   <div className="flex items-center">
+    //     <h1 className="text-white text-lg md:text-xl mr-2 md:mr-4">User</h1>
+    //     <div className="flex flex-col md:flex-row">
+    //       <button className="bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4">Log out</button>
+    //       <button className="bg-red-800 text-white px-4 py-2">Search Movie</button>
+    //     </div>
+    //   </div>
+    // </div>
 
     <div className="absolute w-[100vw]">
       {/* This example requires Tailwind CSS v2.0+ */}
@@ -64,12 +75,12 @@ const Header = () => {
               <h1 className="text-white text-lg md:text-xl mr-2 md:mr-4">
                 User
               </h1>
-              <a
-                href="#"
+              <button
+                onClick={handleLogout}
                 className="bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4"
               >
                 Log out
-              </a>
+              </button>
               <a
                 href="#"
                 className="ml-2 bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4"
