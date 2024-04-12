@@ -3,8 +3,10 @@ import VideoTitle from "../video/VideoTitle";
 
 const MainContainer = () => {
   return (
-    <div className="">
-      <VideoTitle />
+    <div className="w-full">
+      <div className="w-[45%]">
+        <VideoTitle />
+      </div>
       <VideoBackGround />
     </div>
   );

@@ -30,7 +30,7 @@ const Header = () => {
     //   </div>
     // </div>
 
-    <div className="absolute w-[100vw]">
+    <div className="absolute w-[100vw] z-50">
       {/* This example requires Tailwind CSS v2.0+ */}
       <div className="relative bg-gradient-to-b from-black px-4 py-2 ">
         <div className="px-6">

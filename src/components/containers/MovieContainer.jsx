@@ -1,7 +1,7 @@
 
 const MovieContainer = () => {
     return (
-        <div>
+        <div className="">
             This is movie container
         </div>
     );
