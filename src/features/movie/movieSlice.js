@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
+  fetchMovieById,
   fetchNowPlayingMovie,
   fetchPopularMovie,
   fetchTopRatedMovie,
@@ -11,10 +12,16 @@ const initialState = {
   popularMovie: null,
   upcomingMovie: null,
   topMovie: null,
+  trailerMovie: null,
   isSuccess: false,
-  isLoading: false,
+  isNowLoading: false,
+  isPopularLoading: false,
+  isUpcomingLoading: false,
+  isTopLoading: false,
+  isTrailerLoading: false,
   isError: false,
   error: null,
+  toggle: false,
 };
 
 export const fetchNowPlayingMovieAsync = createAsyncThunk(
@@ -49,63 +56,76 @@ export const fetchTopRatedMovieAsync = createAsyncThunk(
   }
 );
 
+export const fetchMovieByIdAsync = createAsyncThunk(
+  "movie/fetchMovieById",
+  async (id) => {
+    const response = await fetchMovieById(id);
+    return response.results;
+  }
+);
+
 const movieSlice = createSlice({
   name: "movie",
   initialState,
+  reducers: {
+    setToggle: (state) => {
+      state.toggle = !state.toggle;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchNowPlayingMovieAsync.pending, (state) => {
-        state.isLoading = true;
+        state.isNowLoading = true;
         state.isError = false;
         state.error = null;
       })
       .addCase(fetchNowPlayingMovieAsync.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isNowLoading = false;
         state.isError = false;
         // console.log(action);
         state.isSuccess = true;
         state.nowPlayMovie = action.payload;
       })
       .addCase(fetchNowPlayingMovieAsync.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isNowLoading = false;
         state.isSuccess = false;
         state.isError = true;
         state.error = action.error.message;
         state.nowPlayMovie = null;
       })
       .addCase(fetchPopularMovieAsync.pending, (state) => {
-        state.isLoading = true;
+        state.isPopularLoading = true;
         state.isError = false;
         state.error = null;
       })
       .addCase(fetchPopularMovieAsync.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isPopularLoading = false;
         state.isError = false;
         // console.log(action);
         state.isSuccess = true;
         state.popularMovie = action.payload;
       })
       .addCase(fetchPopularMovieAsync.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isPopularLoading = false;
         state.isSuccess = false;
         state.isError = true;
         state.error = action.error.message;
         state.popularMovie = null;
       })
       .addCase(fetchUpcomingMovieAsync.pending, (state) => {
-        state.isLoading = true;
+        state.isUpcomingLoading = true;
         state.isError = false;
         state.error = null;
       })
       .addCase(fetchUpcomingMovieAsync.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isUpcomingLoading = false;
         state.isError = false;
         // console.log(action);
         state.isSuccess = true;
         state.upcomingMovie = action.payload;
       })
       .addCase(fetchUpcomingMovieAsync.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isUpcomingLoading = false;
         state.isSuccess = false;
         state.isError = true;
         // console.log(action);
@@ -113,26 +133,49 @@ const movieSlice = createSlice({
         state.upcomingMovie = null;
       })
       .addCase(fetchTopRatedMovieAsync.pending, (state) => {
-        state.isLoading = true;
+        state.isTopLoading = true;
         state.isError = false;
         state.error = null;
       })
       .addCase(fetchTopRatedMovieAsync.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isTopLoading = false;
         state.isError = false;
         // console.log(action);
         state.isSuccess = true;
         state.topMovie = action.payload;
       })
       .addCase(fetchTopRatedMovieAsync.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isTopLoading = false;
         state.isSuccess = false;
         state.isError = true;
         // console.log(action);
         state.error = action.error.message;
         state.topMovie = null;
       })
+      .addCase(fetchMovieByIdAsync.pending, (state) => {
+        state.isTrailerLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(fetchMovieByIdAsync.fulfilled, (state, action) => {
+        state.isTrailerLoading = false;
+        state.isError = false;
+        // console.log(action);
+        state.isSuccess = true;
+        const trailer = action.payload;
+        state.trailerMovie = trailer.filter(t => t.type === "Trailer")
+      })
+      .addCase(fetchMovieByIdAsync.rejected, (state, action) => {
+        state.isTrailerLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        // console.log(action);
+        state.error = action.error.message;
+        state.trailerMovie = null;
+      });
   },
 });
+
+export const { setToggle } = movieSlice.actions;
 
 export default movieSlice.reducer;

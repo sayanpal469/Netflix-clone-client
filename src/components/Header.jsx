@@ -1,49 +1,29 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../features/user/userSlice";
+import { setToggle } from "../features/movie/movieSlice";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    // Dispatch the logout action to update Redux store
-    dispatch(logOut());
-  
-    // Clear user data from localStorage
-    localStorage.removeItem('user');
-  };
+  const { toggle } = useSelector((state) => state.movie);
+  const { isUser, userInfo } = useSelector((state) => state.user);
 
   return (
-    // <div className="absolute flex flex-col md:flex-row w-full items-center justify-between bg-gradient-to-b from-black px-4 py-2">
-    //   <img
-    //     className="w-40 md:w-56 mb-2 md:mb-0"
-    //     src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png"
-    //     alt="netflix-logo"
-    //   />
-    //   <div className="flex items-center">
-    //     <h1 className="text-white text-lg md:text-xl mr-2 md:mr-4">User</h1>
-    //     <div className="flex flex-col md:flex-row">
-    //       <button className="bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4">Log out</button>
-    //       <button className="bg-red-800 text-white px-4 py-2">Search Movie</button>
-    //     </div>
-    //   </div>
-    // </div>
-
     <div className="absolute w-[100vw] z-50">
-      {/* This example requires Tailwind CSS v2.0+ */}
       <div className="relative bg-gradient-to-b from-black px-4 py-2 ">
         <div className="px-6">
           <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
-              <a href="#">
+              <Link to="/browse">
                 <span className="sr-only">Workflow</span>
                 <img
                   className="h-8 w-auto sm:h-12"
                   src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png"
                   alt=""
                 />
-              </a>
+              </Link>
             </div>
             <div className="-mr-2 -my-2 md:hidden">
               <button
@@ -71,23 +51,25 @@ const Header = () => {
               </button>
             </div>
 
-            <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <h1 className="text-white text-lg md:text-xl mr-2 md:mr-4">
-                User
-              </h1>
-              <button
-                onClick={handleLogout}
-                className="bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4"
-              >
-                Log out
-              </button>
-              <a
-                href="#"
-                className="ml-2 bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4"
-              >
-                Search Movies
-              </a>
-            </div>
+            {isUser && (
+              <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+                <h1 className="text-white text-lg md:text-xl mr-2 md:mr-4">
+                  {userInfo.userName}
+                </h1>
+                <button
+                  onClick={() => dispatch(setToggle())}
+                  className="ml-2 bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4"
+                >
+                  {toggle ? "Home" : "Search Movies"}
+                </button>
+                <button
+                  onClick={() => dispatch(logOut())}
+                  className="bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4"
+                >
+                  Log out
+                </button>
+              </div>
+            )}
           </div>
         </div>
         {/*
@@ -146,23 +128,25 @@ const Header = () => {
               </div>
             </div>
             <div className="py-6 px-5 space-y-6">
-              <div className="flex items-center justify-center">
-                <h1 className="text-white text-lg md:text-xl mr-2 md:mr-4">
-                  User
-                </h1>
-                <a
-                  href="#"
-                  className="bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4"
-                >
-                  Log out
-                </a>
-                <a
-                  href="#"
-                  className="ml-2 bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4"
-                >
-                  Search Movies
-                </a>
-              </div>
+              {isUser && (
+                <div className="flex items-center justify-center">
+                  <h1 className="text-white text-lg md:text-xl mr-2 md:mr-4">
+                    {userInfo.userName}
+                  </h1>
+                  <button
+                    onClick={() => dispatch(setToggle())}
+                    className="ml-2 bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4"
+                  >
+                    Search Movies
+                  </button>
+                  <button
+                    onClick={() => dispatch(logOut())}
+                    className="bg-red-800 text-white px-4 py-2 mb-2 md:mb-0 mr-2 md:mr-4"
+                  >
+                    Log out
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
