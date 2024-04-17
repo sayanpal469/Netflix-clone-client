@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: "https://netflix-clone-server-7l76.onrender.com/api",
   timeout: 1000,
   headers: { "X-Custom-Header": "foobar" },
 });
