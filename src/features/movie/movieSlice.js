@@ -26,6 +26,9 @@ const initialState = {
   isError: false,
   error: null,
   toggle: false,
+  open: false,
+  movieId: "",
+  mute: 0,
 };
 
 export const fetchNowPlayingMovieAsync = createAsyncThunk(
@@ -82,6 +85,15 @@ const movieSlice = createSlice({
   reducers: {
     setToggle: (state) => {
       state.toggle = !state.toggle;
+    },
+    setOpen: (state, action) => {
+      state.open = action.payload;
+    },
+    getMovieId: (state, action) => {
+      state.movieId = action.payload;
+    },
+    setMute: (state, action) => {
+      state.mute = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -209,6 +221,6 @@ const movieSlice = createSlice({
   },
 });
 
-export const { setToggle } = movieSlice.actions;
+export const { setToggle, setOpen, getMovieId, setMute } = movieSlice.actions;
 
 export default movieSlice.reducer;
