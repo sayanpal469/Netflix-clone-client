@@ -15,7 +15,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function MovieDialog() {
   const dispatch = useDispatch();
-  const { open, movieId } = useSelector((state) => state.movie);
+  const { open, movieInfo } = useSelector((state) => state.movie);
 
   const handleClose = () => {
     dispatch(setOpen(false));
@@ -41,7 +41,7 @@ export default function MovieDialog() {
             </IconButton>
           </Toolbar>
         </AppBar>
-          <VideoBackGround movieId={movieId} />
+          <VideoBackGround movieId={movieInfo?.id} />
       </Dialog>
     </React.Fragment>
   );

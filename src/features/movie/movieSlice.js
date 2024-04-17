@@ -27,7 +27,7 @@ const initialState = {
   error: null,
   toggle: false,
   open: false,
-  movieId: "",
+  movieInfo: null,
   mute: 0,
 };
 
@@ -89,8 +89,8 @@ const movieSlice = createSlice({
     setOpen: (state, action) => {
       state.open = action.payload;
     },
-    getMovieId: (state, action) => {
-      state.movieId = action.payload;
+    getMovieInfo: (state, action) => {
+      state.movieInfo = action.payload;
     },
     setMute: (state, action) => {
       state.mute = action.payload;
@@ -221,6 +221,6 @@ const movieSlice = createSlice({
   },
 });
 
-export const { setToggle, setOpen, getMovieId, setMute } = movieSlice.actions;
+export const { setToggle, setOpen, getMovieInfo, setMute } = movieSlice.actions;
 
 export default movieSlice.reducer;

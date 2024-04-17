@@ -8,13 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMute } from "../../features/movie/movieSlice";
 
 const VideoTitle = ({ title, overview }) => {
-  const { mute } = useSelector((state) => state.movie);
+  const { mute, movieInfo } = useSelector((state) => state.movie);
   const dispatch = useDispatch();
+
   return (
     <div className="absolute z-30 w-screen  text-white pt-[18%] p-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2">
         <div>
-          <h1 className="lg:text-7xl text-2xl font-bold">{title}</h1>
+          <h1 className="lg:text-7xl text-2xl font-bold">
+            {movieInfo ? movieInfo.original_title : title}
+          </h1>
           <p className="lg:text-xl text-xs  lg:w-full mt-2 lg:mt-5">
             {overview}
           </p>

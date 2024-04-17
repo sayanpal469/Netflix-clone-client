@@ -1,19 +1,19 @@
 import PropTypes from "prop-types";
 import { imageUrl } from "../constant/movie";
 import { useDispatch } from "react-redux";
-import { getMovieId, setOpen } from "../features/movie/movieSlice";
+import { getMovieInfo, setOpen } from "../features/movie/movieSlice";
 
 const MovieCard = ({ movie }) => {
-  const { poster_path, id } = movie || "";
+  const { poster_path } = movie || "";
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
-    dispatch(getMovieId(id));
+    dispatch(getMovieInfo(movie));
     dispatch(setOpen(true));
   };
 
   return (
-    <div onClick={handleClickOpen} className="w-48 mx-2">
+    <div onClick={handleClickOpen} className="w-48 mx-2 cursor-pointer">
       <img src={`${imageUrl}${poster_path}`} alt="" />
     </div>
   );
