@@ -1,7 +1,33 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSearchMoviesAsync } from "../features/movie/movieSlice";
+import MovieList from "./MovieList";
+
 const SearchMovie = () => {
+  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+
+  const { isSearchLoading, searchMovies, searchMovieName } = useSelector(
+    (state) => state.movie
+  );
+
+  if (isSearchLoading) {
+    console.log("Loading..");
+  } else {
+    console.log(searchMovies);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(fetchSearchMoviesAsync(search));
+    e.target.reset(); // Reset the form
+    setSearch(""); // Clear the input field
+  };
+  
+
   return (
     <div className="pt-[10%] ">
-      <form className="max-w-md mx-auto">
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
           Search
         </label>
@@ -25,16 +51,43 @@ const SearchMovie = () => {
             id="default-search"
             className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search Movies, Series..."
+            onChange={(e) => setSearch(e.target.value)}
             required
           />
-          <button
-            type="submit"
-            className="text-white absolute end-2.5 bottom-2.5 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Search
-          </button>
+
+          {isSearchLoading ? (
+            <button
+              type="button"
+              className="text-white absolute end-2.5 bottom-2.5 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              disabled // Remove the disabled attribute
+            >
+              <svg
+                aria-hidden="true"
+                role="status"
+                className="inline mr-2 w-4 h-4 text-gray-200 animate-spin dark:text-gray-600"
+                viewBox="0 0 100 101"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              ></svg>
+              Loading...
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="text-white absolute end-2.5 bottom-2.5 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Search
+            </button>
+          )}
         </div>
       </form>
+
+      <div className="mt-10 px-10">
+        <h1 className="text-white text-xl">Search Movies</h1>
+        {searchMovies && (
+          <MovieList movies={searchMovies} title={searchMovieName} />
+        )}
+      </div>
     </div>
   );
 };

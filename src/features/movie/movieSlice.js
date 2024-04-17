@@ -5,6 +5,7 @@ import {
   fetchPopularMovie,
   fetchTopRatedMovie,
   fetchUpcomingMovie,
+  fetchSearchMovies,
 } from "./movieApi";
 
 const initialState = {
@@ -13,12 +14,15 @@ const initialState = {
   upcomingMovie: null,
   topMovie: null,
   trailerMovie: null,
+  searchMovies: null,
+  searchMovieName: null,
   isSuccess: false,
   isNowLoading: false,
   isPopularLoading: false,
   isUpcomingLoading: false,
   isTopLoading: false,
   isTrailerLoading: false,
+  isSearchLoading: false,
   isError: false,
   error: null,
   toggle: false,
@@ -60,6 +64,14 @@ export const fetchMovieByIdAsync = createAsyncThunk(
   "movie/fetchMovieById",
   async (id) => {
     const response = await fetchMovieById(id);
+    return response.results;
+  }
+);
+
+export const fetchSearchMoviesAsync = createAsyncThunk(
+  "movie/fetchSearchMovies",
+  async (value) => {
+    const response = await fetchSearchMovies(value);
     return response.results;
   }
 );
@@ -163,7 +175,7 @@ const movieSlice = createSlice({
         // console.log(action);
         state.isSuccess = true;
         const trailer = action.payload;
-        state.trailerMovie = trailer.filter(t => t.type === "Trailer")
+        state.trailerMovie = trailer.filter((t) => t.type === "Trailer");
       })
       .addCase(fetchMovieByIdAsync.rejected, (state, action) => {
         state.isTrailerLoading = false;
@@ -172,6 +184,27 @@ const movieSlice = createSlice({
         // console.log(action);
         state.error = action.error.message;
         state.trailerMovie = null;
+      })
+      .addCase(fetchSearchMoviesAsync.pending, (state) => {
+        state.isSearchLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(fetchSearchMoviesAsync.fulfilled, (state, action) => {
+        state.isSearchLoading = false;
+        state.isError = false;
+        console.log(action);
+        state.isSuccess = true;
+        state.searchMovieName = action.meta.arg;
+        state.searchMovies = action.payload;
+      })
+      .addCase(fetchSearchMoviesAsync.rejected, (state, action) => {
+        state.isSearchLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        // console.log(action);
+        state.error = action.error.message;
+        state.searchMovies = null;
       });
   },
 });
