@@ -51,8 +51,8 @@ const Browse = () => {
         ) : (
           show && (
             <>
-              <MainContainer />
-              <MovieContainer />
+              {/* <MainContainer />
+              <MovieContainer /> */}
             </>
           )
         )}

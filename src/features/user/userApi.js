@@ -13,8 +13,10 @@ export const createUser = async (userData) => {
 export const loginUser = async (userData) => {
   try {
     const response = await axiosInstance.post("/user/login", userData);
+    // console.log(response)
     return response.data;
   } catch (error) {
+    // console.log(error)
     throw error.response.data;
   }
 };

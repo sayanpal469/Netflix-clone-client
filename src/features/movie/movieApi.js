@@ -1,10 +1,10 @@
 import axios from "axios";
-import { api_key, movieBaseUrl, searchBaseUrl } from "../../constant/movie";
+import { movieBaseUrl, searchBaseUrl } from "../../constant/movie";
 
 export const fetchNowPlayingMovie = async () => {
   try {
     const response = await axios.get(
-      `${movieBaseUrl}/now_playing?api_key=${api_key}`
+      `${movieBaseUrl}/now_playing?api_key=4e44d9029b1270a757cddc766a1bcb63`
     );
     return response.data;
   } catch (error) {
@@ -15,7 +15,7 @@ export const fetchNowPlayingMovie = async () => {
 export const fetchPopularMovie = async () => {
   try {
     const response = await axios.get(
-      `${movieBaseUrl}/popular?api_key=${api_key}`
+      `${movieBaseUrl}/popular?api_key=4e44d9029b1270a757cddc766a1bcb63`
     );
     return response.data;
   } catch (error) {
@@ -26,7 +26,7 @@ export const fetchPopularMovie = async () => {
 export const fetchUpcomingMovie = async () => {
   try {
     const response = await axios.get(
-      `${movieBaseUrl}/upcoming?api_key=${api_key}`
+      `${movieBaseUrl}/upcoming?api_key=4e44d9029b1270a757cddc766a1bcb63`
     );
     return response.data;
   } catch (error) {
@@ -38,7 +38,7 @@ export const fetchUpcomingMovie = async () => {
 export const fetchTopRatedMovie = async () => {
   try {
     const response = await axios.get(
-      `${movieBaseUrl}/top_rated?api_key=${api_key}`
+      `${movieBaseUrl}/top_rated?api_key=4e44d9029b1270a757cddc766a1bcb63`
     );
     return response.data;
   } catch (error) {
@@ -50,7 +50,7 @@ export const fetchTopRatedMovie = async () => {
 export const fetchMovieById = async (id) => {
   const options = {
     method: "GET",
-    url: `${movieBaseUrl}/${id}/videos?api_key=${api_key}`,
+    url: `${movieBaseUrl}/${id}/videos?api_key=4e44d9029b1270a757cddc766a1bcb63`,
     headers: {
       accept: "application/json",
       Authorization:
@@ -70,7 +70,7 @@ export const fetchMovieById = async (id) => {
 export const fetchSearchMovies = async (value) => {
   const options = {
     method: "GET",
-    url: `${searchBaseUrl}?query=${value}&api_key=${api_key}`,
+    url: `${searchBaseUrl}?query=${value}&api_key=4e44d9029b1270a757cddc766a1bcb63`,
     headers: {
       accept: "application/json",
       Authorization:

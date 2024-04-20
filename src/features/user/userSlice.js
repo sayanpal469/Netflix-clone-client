@@ -22,6 +22,7 @@ export const loginUserAsync = createAsyncThunk(
   "user/loginUser",
   async (userData) => {
     const response = await loginUser(userData);
+    console.log(response)
     return response;
   }
 );
